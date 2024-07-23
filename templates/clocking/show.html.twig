@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pointage</h1>
+
+    <table>
+        <tr>
+            <th>Collaborateur</th>
+            <td>{{ clocking.collaborateur.nom }} {{ clocking.collaborateur.prenom }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ clocking.date|date('Y-m-d') }}</td>
+        </tr>
+    </table>
+
+    <h2>Chantiers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Chantier</th>
+                <th>Durée</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for clockingProject in clocking.clockingProjects %}
+            <tr>
+                <td>{{ clockingProject.project.nom }}</td>
+                <td>{{ clockingProject.duration }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('clocking_index') }}">Retour à la liste</a>
+{% endblock %}

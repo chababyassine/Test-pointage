@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Créer un pointage</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.clockingUser) }}
+
+    <div id="clocking-projects">
+        <h3>Projets de pointage</h3>
+        <ul id="clocking-projects-list" data-prototype="{{ form_widget(form.clockingProject.vars.prototype)|e('html_attr') }}">
+            {% for clockingProject in form.clockingProject %}
+                <li>
+                    {{ form_row(clockingProject) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="add-project">Ajouter un projet</button>
+    </div>
+
+    <button class="btn" type="submit">Enregistrer</button>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const collectionHolder = document.querySelector('#clocking-projects-list');
+            const addButton = document.querySelector('#add-project');
+            const prototype = collectionHolder.dataset.prototype;
+            let index = collectionHolder.children.length;
+
+            addButton.addEventListener('click', function() {
+                const newWidget = prototype.replace(/__name__/g, index);
+                index++;
+                const newElement = document.createElement('li');
+                newElement.innerHTML = newWidget;
+                collectionHolder.appendChild(newElement);
+            });
+        });
+    </script>
+{% endblock %}

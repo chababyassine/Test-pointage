@@ -1,0 +1,35 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pointages</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Collaborateur</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for clocking in clockings %}
+            <tr>
+                <td>{{ clocking.collaborateur.nom }} {{ clocking.collaborateur.prenom }}</td>
+                <td>{{ clocking.date|date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('clocking_show', {'id': clocking.id}) }}">Voir</a>
+                    <form method="post" action="{{ path('clocking_delete', {'id': clocking.id}) }}" style="display: inline-block;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ clocking.id) }}">
+                        <button class="btn">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('clocking_new') }}">Créer un nouveau pointage</a>
+
+
+{% endblock %}
